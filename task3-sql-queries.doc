@@ -1,0 +1,44 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Text To Word</title></head><body><p>CREATE TABLE ecommerce (</p>
+<p>&nbsp; &nbsp; InvoiceNo TEXT,</p>
+<p>&nbsp; &nbsp; StockCode TEXT,</p>
+<p>&nbsp; &nbsp; Description TEXT,</p>
+<p>&nbsp; &nbsp; Quantity INTEGER,</p>
+<p>&nbsp; &nbsp; InvoiceDate TEXT,</p>
+<p>&nbsp; &nbsp; UnitPrice REAL,</p>
+<p>&nbsp; &nbsp; CustomerID INTEGER,</p>
+<p>&nbsp; &nbsp; Country TEXT</p>
+<p>);</p>
+<p>&nbsp;</p>
+<p>SELECT Country, ROUND(SUM(Quantity * UnitPrice), 2) AS TotalRevenue</p>
+<p>FROM ecommerce</p>
+<p>GROUP BY Country</p>
+<p>ORDER BY TotalRevenue DESC;</p>
+<p>&nbsp;</p>
+<p>SELECT Description, SUM(Quantity) AS TotalSold</p>
+<p>FROM ecommerce</p>
+<p>GROUP BY Description</p>
+<p>ORDER BY TotalSold DESC</p>
+<p>LIMIT 5;</p>
+<p>&nbsp;</p>
+<p>SELECT strftime('%Y-%m', InvoiceDate) AS Month,&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;ROUND(SUM(Quantity * UnitPrice), 2) AS Revenue</p>
+<p>FROM ecommerce</p>
+<p>GROUP BY Month</p>
+<p>ORDER BY Month;</p>
+<p>&nbsp;</p>
+<p>SELECT CustomerID, ROUND(SUM(Quantity * UnitPrice), 2) AS LifetimeValue</p>
+<p>FROM ecommerce</p>
+<p>WHERE CustomerID IS NOT NULL</p>
+<p>GROUP BY CustomerID</p>
+<p>ORDER BY LifetimeValue DESC;</p>
+<p>&nbsp;</p>
+<p>SELECT CustomerID, COUNT(DISTINCT InvoiceNo) AS TotalOrders</p>
+<p>FROM ecommerce</p>
+<p>WHERE CustomerID IS NOT NULL</p>
+<p>GROUP BY CustomerID</p>
+<p>HAVING TotalOrders &gt; 50</p>
+<p>ORDER BY TotalOrders DESC;</p>
+<p>&nbsp;</p>
+<p>CREATE VIEW UK_Sales AS</p>
+<p>SELECT * FROM ecommerce</p>
+<p>WHERE Country = 'United Kingdom';</p></body></html>
